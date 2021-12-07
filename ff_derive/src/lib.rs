@@ -1337,6 +1337,7 @@ fn prime_field_impl(
             }
 
             #[inline(always)]
+            #[allow(clippy::too_many_arguments)]
             fn mont_reduce(
                 &mut self,
                 #mont_paramlist
