@@ -888,11 +888,11 @@ fn prime_field_impl(
 
     let from_repr_impl = endianness.from_repr(name, limbs);
     let to_repr_impl = endianness.to_repr(quote! {#repr}, &mont_reduce_self_params, limbs);
-    let to_le_bits_impl = ReprEndianness::Little.to_repr(
-        quote! {::ff::derive::bitvec::array::BitArray::new},
-        &mont_reduce_self_params,
-        limbs,
-    );
+    // let to_le_bits_impl = ReprEndianness::Little.to_repr(
+    //     quote! {::ff::derive::bitvec::array::BitArray::new},
+    //     &mont_reduce_self_params,
+    //     limbs,
+    // );
 
     let top_limb_index = limbs - 1;
 
@@ -1192,17 +1192,17 @@ fn prime_field_impl(
             }
         }
 
-        impl ::ff::PrimeFieldBits for #name {
-            type ReprBits = REPR_BITS;
+        // impl ::ff::PrimeFieldBits for #name {
+        //     type ReprBits = REPR_BITS;
 
-            fn to_le_bits(&self) -> ::ff::FieldBits<REPR_BITS> {
-                #to_le_bits_impl
-            }
+        //     fn to_le_bits(&self) -> ::ff::FieldBits<REPR_BITS> {
+        //         todo!("not needed by us");
+        //     }
 
-            fn char_le_bits() -> ::ff::FieldBits<REPR_BITS> {
-                ::ff::FieldBits::new(MODULUS)
-            }
-        }
+        //     fn char_le_bits() -> ::ff::FieldBits<REPR_BITS> {
+        //         ::ff::FieldBits::new(MODULUS)
+        //     }
+        // }
 
         impl ::ff::Field for #name {
             /// Computes a uniformly random element using rejection sampling.
