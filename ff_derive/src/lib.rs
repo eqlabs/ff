@@ -333,7 +333,7 @@ fn prime_field_repr_impl(
     let repr_iter_be = endianness.iter_be();
 
     quote! {
-        #[derive(Copy, Clone)]
+        #[derive(Copy, Clone, PartialEq, Eq)]
         pub struct #repr(pub [u8; #bytes]);
 
         impl ::ff::derive::subtle::ConstantTimeEq for #repr {
@@ -345,15 +345,6 @@ fn prime_field_repr_impl(
                     .fold(1.into(), |acc, x| acc & x)
             }
         }
-
-        impl ::core::cmp::PartialEq for #repr {
-            fn eq(&self, other: &#repr) -> bool {
-                use ::ff::derive::subtle::ConstantTimeEq;
-                self.ct_eq(other).into()
-            }
-        }
-
-        impl ::core::cmp::Eq for #repr { }
 
         impl ::core::default::Default for #repr {
             fn default() -> #repr {
@@ -947,8 +938,7 @@ fn prime_field_impl(
 
         impl ::core::cmp::PartialEq for #name {
             fn eq(&self, other: &#name) -> bool {
-                use ::ff::derive::subtle::ConstantTimeEq;
-                self.ct_eq(other).into()
+                self.0 == other.0
             }
         }
 
